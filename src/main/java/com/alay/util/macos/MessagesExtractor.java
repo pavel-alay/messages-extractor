@@ -1,3 +1,5 @@
+package com.alay.util.macos;
+
 import lombok.extern.java.Log;
 import org.sqlite.SQLiteConfig;
 

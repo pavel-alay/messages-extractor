@@ -1,3 +1,5 @@
+package com.alay.util.macos;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
