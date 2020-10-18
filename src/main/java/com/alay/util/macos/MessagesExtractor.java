@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,8 +19,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.text.MessageFormat.format;
 
 @Log
 public class MessagesExtractor {
@@ -30,9 +29,9 @@ public class MessagesExtractor {
 
     public MessagesExtractor(String dbPath) throws IOException {
         if (!Files.isReadable(Paths.get(dbPath))) {
-            throw new IOException(format("Can''t read ''{0}''. Please, check if file exist and permissions are valid.", dbPath));
+            throw new IOException(MessageFormat.format("Can''t read ''{0}''. Please, check if file exist and permissions are valid.", dbPath));
         }
-        this.dbUrl = format(JDBC_TEMPLATE, dbPath);
+        this.dbUrl = MessageFormat.format(JDBC_TEMPLATE, dbPath);
     }
 
     public Map<String, List<Message>> getMessages(Collection<String> chats, LocalDateTime since) throws SQLException {

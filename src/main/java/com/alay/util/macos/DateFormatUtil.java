@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
  * And the low part is nanoseconds.
  */
 public final class DateFormatUtil {
-    private static final long APPLE_EPOCH = ZonedDateTime.of(2001, 1,1,0,0,0,0, ZoneId.of("GMT"))
+    private static final long APPLE_EPOCH = ZonedDateTime.of(2001, 1, 1, 0, 0, 0, 0, ZoneId.of("GMT"))
             .toEpochSecond();
     private static final long NANO_SECONDS = 1000000000L;
 
@@ -26,6 +26,6 @@ public final class DateFormatUtil {
 
     public static long dateTimeToApple(LocalDateTime time) {
         Instant instant = time.atZone(ZoneId.systemDefault()).toInstant();
-        return (instant.getEpochSecond() - APPLE_EPOCH)*NANO_SECONDS + instant.getNano();
+        return (instant.getEpochSecond() - APPLE_EPOCH) * NANO_SECONDS + instant.getNano();
     }
 }
