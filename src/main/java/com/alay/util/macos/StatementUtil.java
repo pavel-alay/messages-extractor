@@ -9,7 +9,7 @@ import java.util.Collection;
 import static java.text.MessageFormat.format;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class StatementUtil {
+final class StatementUtil {
 
     private static final String BASE_SELECT = "SELECT m.guid, c.chat_identifier, m.date, m.text " +
             "FROM message m INNER JOIN chat c ON c.ROWID = m.handle_id";
@@ -17,13 +17,13 @@ public final class StatementUtil {
     /**
      * Build SELECT statement to fetch messages.
      *
-     * @param filterChats shall not be null. Empty collection means no filter.
+     * @param chats shall not be null. Empty collection means no filter.
      * @param since can be null.
      * @return SELECT statement.
      */
-    public static String buildSelect(Collection<String> filterChats, LocalDateTime since) {
+    static String buildSelect(Collection<String> chats, LocalDateTime since) {
         StringBuilder statementBuilder = new StringBuilder(BASE_SELECT);
-        if (!filterChats.isEmpty() || since != null) {
+        if (since != null || isNotBlank(chats)) {
             statementBuilder.append(" WHERE");
             int overhead = 0;
             if (since != null) {
@@ -33,8 +33,8 @@ public final class StatementUtil {
                         .append(" AND");
                 overhead = " AND".length();
             }
-            if (!filterChats.isEmpty()) {
-                for (String chat : filterChats) {
+            if (isNotBlank(chats)) {
+                for (String chat : chats) {
                     statementBuilder.append(format(" c.chat_identifier LIKE ''%{0}%'' OR", chat));
                 }
                 overhead = " OR".length();
@@ -44,5 +44,9 @@ public final class StatementUtil {
 
         statementBuilder.append(" ORDER BY m.date");
         return statementBuilder.toString();
+    }
+
+    private static boolean isNotBlank(Collection<String> collection) {
+        return collection != null && !collection.isEmpty();
     }
 }

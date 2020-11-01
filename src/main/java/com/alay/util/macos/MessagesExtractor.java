@@ -38,8 +38,16 @@ public class MessagesExtractor {
         return getMessages(StatementUtil.buildSelect(chats, since));
     }
 
+    public Map<String, List<Message>> getMessages(Collection<String> chats) throws SQLException {
+        return getMessages(chats, null);
+    }
+
     public Map<String, List<Message>> getMessages() throws SQLException {
-        return getMessages(Collections.emptyList(), null);
+        return getMessages(null, null);
+    }
+
+    public Map<String, List<Message>> getMessages(LocalDateTime since) throws SQLException {
+        return getMessages(null, since);
     }
 
     private Map<String, List<Message>> getMessages(String statement) throws SQLException {
